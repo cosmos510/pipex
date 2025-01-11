@@ -6,11 +6,23 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 21:10:29 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/11 09:56:30 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/11 10:23:55 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
+
+char	**find_path_env(char **env)
+{
+	char	*path_str;
+	char	**path_split;
+
+	path_str = get_path_string(env);
+	if (!path_str)
+		return (NULL);
+	path_split = process_path_string(path_str);
+	return (path_split);
+}
 
 char	*get_path_string(char **env)
 {
@@ -46,18 +58,6 @@ char	**process_path_string(char *path_str)
 	return (path_split);
 }
 
-char	**find_path(char **env)
-{
-	char	*path_str;
-	char	**path_split;
-
-	path_str = get_path_string(env);
-	if (!path_str)
-		return (NULL);
-	path_split = process_path_string(path_str);
-	return (path_split);
-}
-
 char	**add_slash(char **path)
 {
 	int		i;
@@ -81,7 +81,7 @@ char	**add_slash(char **path)
 	return (path);
 }
 
-char	*find_commande(char **path, char *arg)
+char	*find_path(char **path, char *arg)
 {
 	char	*commande;
 	int		i;
@@ -89,6 +89,7 @@ char	*find_commande(char **path, char *arg)
 	if (!path || !arg)
 		return (NULL);
 	i = 0;
+	printf("%s\n", arg);
 	while (path[i])
 	{
 		commande = ft_strjoin(path[i], arg);
