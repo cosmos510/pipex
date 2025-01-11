@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 10:25:21 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/11 17:15:28 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/11 17:32:05 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,25 +54,4 @@ char	**create_command_args(char *arg)
 		return (NULL);
 	}
 	return (create_args(temp, args, count));
-}
-
-char	*find_command_path(char **path_dirs, char **args)
-{
-	char	*full_path;
-	int		i;
-
-	if (!path_dirs || !args || !args[0])
-		return (NULL);
-	i = 0;
-	while (path_dirs[i])
-	{
-		full_path = ft_strjoin(path_dirs[i], args[0]);
-		if (!full_path)
-			return (NULL);
-		if (access(full_path, X_OK) == 0)
-			return (full_path);
-		free(full_path);
-		i++;
-	}
-	return (NULL);
 }
