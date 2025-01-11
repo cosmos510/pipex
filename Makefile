@@ -6,7 +6,7 @@
 #    By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/10 20:41:57 by cosmos            #+#    #+#              #
-#    Updated: 2025/01/11 09:49:31 by cosmos           ###   ########.fr        #
+#    Updated: 2025/01/11 10:44:03 by cosmos           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ RM              = rm -rf
 SRCS            = src/main.c \
 				  src/path_utils.c \
 				  src/free_it.c \
+				  src/commande_utils.c \
 
 OBJS            = $(SRCS:.c=.o)
 

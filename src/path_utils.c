@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 21:10:29 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/11 10:23:55 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/11 12:00:40 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ char	*find_path(char **path, char *arg)
 	if (!path || !arg)
 		return (NULL);
 	i = 0;
-	printf("%s\n", arg);
 	while (path[i])
 	{
 		commande = ft_strjoin(path[i], arg);

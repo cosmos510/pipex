@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 17:01:25 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/11 10:20:23 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/11 12:00:12 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,18 @@ int	main(int ac, char **av, char **env)
 	if (ac == 5)
 	{
 		path_env = find_path_env(env);
-		path = find_path(path_env, av[2]);
-		args = malloc(sizeof(char *) * 3);
-		args[0] = av[2];
-		args[1] = av[1];
-		args[2] = NULL;
+		args = create_command_args(av[2], av[1]);
+		path = find_command_path(path_env, args);
 		if (path)
-			execve(path, args, env);
+		{
+			if (args)
+			{
+				if (access(av[1], F_OK) == 0)
+					execve(path, args, env);
+				else
+					perror("File does not exist");
+			}
+		}
 	}
 	free_it(path_env);
 	if (path)
