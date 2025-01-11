@@ -6,21 +6,11 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 10:25:21 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/11 11:57:31 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/11 17:15:28 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
-
-static int	count_args(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args && args[i])
-		i++;
-	return (i);
-}
 
 char	**create_args(char **temp, char **args, int count)
 {
@@ -45,27 +35,25 @@ char	**create_args(char **temp, char **args, int count)
 	return (args);
 }
 
-char	**create_command_args(char *cmd, char *arg)
+char	**create_command_args(char *arg)
 {
-	char	**args;
 	char	**temp;
+	char	**args;
 	int		count;
 
-	if (!cmd)
-		return (NULL);
-	temp = ft_split(cmd, ' ');
+	temp = ft_split(arg, ' ');
+	count = 0;
 	if (!temp)
 		return (NULL);
-	count = count_args(temp);
-	args = malloc(sizeof(char *) * (count + 2));
+	while (temp[count])
+		count++;
+	args = malloc(sizeof(char *) * (count + 1));
 	if (!args)
 	{
 		free_it(temp);
 		return (NULL);
 	}
-	args = create_args(temp, args, count);
-	args[count] = ft_strdup(arg);
-	return (args);
+	return (create_args(temp, args, count));
 }
 
 char	*find_command_path(char **path_dirs, char **args)
