@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 17:01:25 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/11 12:00:12 by cosmos           ###   ########.fr       */
+/*   Created: 2025/01/12 15:57:50 by cosmos            #+#    #+#             */
+/*   Updated: 2025/01/12 16:09:57 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,25 @@
 
 int	main(int ac, char **av, char **env)
 {
-	char	**path_env;
-	char	*path;
-	char	**args;
+	int		fd[2];
+	pid_t	pid;
 
-	path_env = NULL;
 	if (ac == 5)
 	{
-		path_env = find_path_env(env);
-		args = create_command_args(av[2], av[1]);
-		path = find_command_path(path_env, args);
-		if (path)
-		{
-			if (args)
-			{
-				if (access(av[1], F_OK) == 0)
-					execve(path, args, env);
-				else
-					perror("File does not exist");
-			}
-		}
+		if (pipe(fd) == -1)
+			error();
+		pid = fork();
+		if (pid == -1)
+			error();
+		if (pid == 0)
+			child_pro(env, av, fd);
+		waitpid(pid, NULL, 0);
+		parent_pro(env, av, fd);
 	}
-	free_it(path_env);
-	if (path)
-		free(path);
+	else
+	{
+		ft_putstr_fd("Error, bad argument\n", 2);
+		ft_putstr_fd("Usage: ./pipex filein cmd1 cmd2 fileout\n", 2);
+	}
 	return (0);
 }

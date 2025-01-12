@@ -6,7 +6,7 @@
 #    By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/10 20:41:57 by cosmos            #+#    #+#              #
-#    Updated: 2025/01/11 15:49:49 by cosmos           ###   ########.fr        #
+#    Updated: 2025/01/12 16:20:08 by cosmos           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME            = pipex
 CC              = gcc
 CFLAGS          = -Wall -Wextra -Werror
 RM              = rm -rf
-SRCS            = src/main.c \
+SRCS            = src/pipex.c \
 				  src/path_utils.c \
 				  src/free_it.c \
 				  src/commande_utils.c \

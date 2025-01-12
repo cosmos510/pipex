@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 09:45:24 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/11 09:47:12 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/12 16:06:14 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,10 @@ void	free_it(char **s)
 		i++;
 	}
 	free(s);
+}
+
+void	error(void)
+{
+	perror("Error\n");
+	exit(EXIT_FAILURE);
 }
