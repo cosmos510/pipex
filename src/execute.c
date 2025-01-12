@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 15:48:25 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/12 16:24:25 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/12 16:40:48 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	execute(char **env, char *arg)
 	{
 		if (args)
 		{
-			execve(path, args, env);
+			if (execve(path, args, env) == -1)
+				error();
 		}
 	}
 	free_it(path_env);
