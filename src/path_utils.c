@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 21:10:29 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/11 12:00:40 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/12 16:55:08 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ char	*find_path(char **path, char *arg)
 		free(commande);
 		i++;
 	}
+	free(arg);
 	return (NULL);
 }

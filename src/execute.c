@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 15:48:25 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/12 16:40:48 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/12 16:57:42 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,16 @@ void	execute(char **env, char *arg)
 		if (args)
 		{
 			if (execve(path, args, env) == -1)
+			{
+				free_it(path_env);
+				free_it(args);
+				free(path);
 				error();
+			}
 		}
 	}
 	free_it(path_env);
+	free(args);
 	if (path)
 		free(path);
 }
@@ -45,6 +51,8 @@ void	child_pro(char **env, char **av, int *fd)
 	dup2(filein, STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
+	close(filein);
+	close(fd[1]);
 	execute(env, av[2]);
 	exit(1);
 }
@@ -59,6 +67,8 @@ void	parent_pro(char **env, char **av, int *fd)
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fileout, STDOUT_FILENO);
 	close(fd[1]);
+	close(fileout);
+	close(fd[0]);
 	execute(env, av[3]);
 	exit(1);
 }
