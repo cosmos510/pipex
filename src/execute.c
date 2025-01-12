@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 15:48:25 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/12 16:57:42 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/12 17:12:31 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ void	execute(char **env, char *arg)
 
 	path_env = NULL;
 	path_env = find_path_env(env);
+	if (!path_env)
+		error();
 	args = create_command_args(arg);
+	if (!args)
+		error();
 	path = find_path(path_env, args[0]);
 	if (path)
 	{
@@ -28,10 +32,7 @@ void	execute(char **env, char *arg)
 		{
 			if (execve(path, args, env) == -1)
 			{
-				free_it(path_env);
-				free_it(args);
-				free(path);
-				error();
+				return(free_it(path_env),free_it(args),free(path),error());
 			}
 		}
 	}
@@ -39,6 +40,7 @@ void	execute(char **env, char *arg)
 	free(args);
 	if (path)
 		free(path);
+	error();
 }
 
 void	child_pro(char **env, char **av, int *fd)
