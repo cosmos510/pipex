@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 21:10:29 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/12 17:16:10 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/12 17:21:14 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**find_path_env(char **env)
 		return (NULL);
 	path_split = process_path_string(path_str);
 	if (!path_split)
-		return(NULL);
+		return (NULL);
 	return (path_split);
 }
 
@@ -53,10 +53,7 @@ char	**process_path_string(char *path_str)
 	if (!path_split)
 		return (NULL);
 	if (!add_slash(path_split))
-	{
-		//free_it(path_split);
 		return (NULL);
-	}
 	return (path_split);
 }
 
