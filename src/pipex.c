@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:57:50 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/12 16:09:57 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:47:51 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ int	main(int ac, char **av, char **env)
 			error();
 		pid = fork();
 		if (pid == -1)
-			error();
+			close_it(fd);
 		if (pid == 0)
 			child_pro(env, av, fd);
-		waitpid(pid, NULL, 0);
+		if (waitpid(pid, NULL, 0) == -1)
+			close_it(fd);
 		parent_pro(env, av, fd);
 	}
 	else

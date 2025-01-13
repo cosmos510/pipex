@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 20:28:15 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/12 16:10:52 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:55:16 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	*get_path_string(char **env);
 //free_it
 void	free_it(char **s);
 void	error(void);
+void	clean_up(char **path_env, char **args, char *path);
+void	close_it(int *fd);
 //commande_utlis.c
 char	*find_command_path(char **path_dirs, char **args);
 char	**create_command_args(char *cmd);
