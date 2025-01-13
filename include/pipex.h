@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 20:28:15 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/13 20:43:40 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/13 23:39:56 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,11 @@ void	child_process(char **env, char *cmd, int *fd);
 void	handle_pipes(int ac, char **av, char **env);
 int		open_file(char *file, int mode);
 int		create_pipe(int *fd);
+//execute_bonus
+void	handle_pipes_bonus(int ac, char **av, char **env, int mode);
+//utils_bonus
+int		get_next_line_pip(char **line);
+void	here_doc(char *limiter, int *fd);
+void	setup_io(int ac, char **av, int mode, int *fileout);
 
 #endif

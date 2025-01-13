@@ -6,21 +6,31 @@
 #    By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/10 20:41:57 by cosmos            #+#    #+#              #
-#    Updated: 2025/01/13 20:46:58 by cosmos           ###   ########.fr        #
+#    Updated: 2025/01/13 23:31:08 by cosmos           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME            = pipex
+
 CC              = gcc
 CFLAGS          = -Wall -Wextra -Werror
 RM              = rm -rf
+
 SRCS            = src/pipex.c \
 				  src/path_utils.c \
 				  src/free_it.c \
 				  src/commande_utils.c \
 				  src/execute.c \
 
+BONUS_SRCS      = bonus/pipex_bonus.c \
+				  src/path_utils.c \
+				  src/free_it.c \
+				  src/commande_utils.c \
+				  bonus/execute_bonus.c \
+				  bonus/utils_bonus.c \
+
 OBJS            = $(SRCS:.c=.o)
+BONUS_OBJS      = $(BONUS_SRCS:.c=.o)
 
 LIBFT_PATH      = ./libft
 LIBFT           = $(LIBFT_PATH)/libft.a
@@ -31,18 +41,20 @@ LIBFT           = $(LIBFT_PATH)/libft.a
 all:            $(NAME)
 
 $(NAME):        $(LIBFT) $(OBJS)
-				@${CC} ${CFLAGS} ${OBJS} libft/libft.a -o ${NAME}
+				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
+bonus:          $(LIBFT) $(BONUS_OBJS)
+				@$(CC) $(CFLAGS) $(BONUS_OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 				make -C $(LIBFT_PATH)
 
 clean:
 				make -C $(LIBFT_PATH) clean
-				$(RM) $(OBJS)
+				$(RM) $(OBJS) $(BONUS_OBJS)
 
 fclean:         clean
 				make -C $(LIBFT_PATH) fclean
-				$(RM) $(NAME)
+				$(RM) $(NAME) $(NAME)
 
 re:             fclean all
