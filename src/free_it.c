@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 09:45:24 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/13 16:57:24 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/13 20:50:07 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	clean_up(char **path_env, char **args, char *path)
 	if (path_env)
 		free_it(path_env);
 	if (args)
-		free_it(args);
+		free(args);
 	if (path)
 		free(path);
 }

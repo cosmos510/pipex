@@ -6,7 +6,7 @@
 #    By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/10 20:41:57 by cosmos            #+#    #+#              #
-#    Updated: 2025/01/12 16:20:08 by cosmos           ###   ########.fr        #
+#    Updated: 2025/01/13 20:46:58 by cosmos           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ LIBFT           = $(LIBFT_PATH)/libft.a
 all:            $(NAME)
 
 $(NAME):        $(LIBFT) $(OBJS)
-				cp $(LIBFT) $(NAME)
 				@${CC} ${CFLAGS} ${OBJS} libft/libft.a -o ${NAME}
 
 

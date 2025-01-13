@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 20:28:15 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/13 16:55:16 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/13 20:43:40 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ char	**create_command_args(char *cmd);
 char	**create_args(char **temp, char **args, int count);
 //execute.c
 void	execute(char **env, char *arg);
-void	child_pro(char **env, char **av, int *fd);
-void	parent_pro(char **env, char **av, int *fd);
+void	child_process(char **env, char *cmd, int *fd);
+void	handle_pipes(int ac, char **av, char **env);
+int		open_file(char *file, int mode);
+int		create_pipe(int *fd);
 
 #endif

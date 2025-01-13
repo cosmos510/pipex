@@ -5,41 +5,78 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 15:48:25 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/13 16:55:09 by cosmos           ###   ########.fr       */
+/*   Created: 2025/01/13 17:16:26 by cosmos            #+#    #+#             */
+/*   Updated: 2025/01/13 20:50:23 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
-/*
-void	execute(char **env, char *arg)
-{
-	char	**path_env;
-	char	*path;
-	char	**args;
 
-	path_env = NULL;
-	path_env = find_path_env(env);
-	if (!path_env)
+int	create_pipe(int *fd)
+{
+	if (pipe(fd) == -1)
 		error();
-	args = create_command_args(arg);
-	if (!args)
+	return (0);
+}
+
+int	open_file(char *file, int mode)
+{
+	int	fd;
+
+	if (mode == 0)
+		fd = open(file, O_RDONLY);
+	else if (mode == 1)
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
 		error();
-	path = find_path(path_env, args[0]);
-	if (path)
+	return (fd);
+}
+
+void	child_process(char **env, char *cmd, int *fd)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		close_it(fd);
+	if (pid == 0)
 	{
-		if (args)
-		{
-			if (execve(path, args, env) == -1)
-				return (free_it(path_env), free_it(args), free(path), error());
-		}
+		if (close(fd[0]) == -1)
+			error();
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			error();
+		execute(env, cmd);
 	}
-	free_it(path_env);
-	free(args);
-	if (path)
-		free(path);
-	error();
-}*/
+	else
+	{
+		if (close(fd[1]) == -1)
+			error();
+		if (dup2(fd[0], STDIN_FILENO) == -1)
+			error();
+		if (waitpid(pid, NULL, 0) == -1)
+			close_it(fd);
+	}
+}
+
+void	handle_pipes(int ac, char **av, char **env)
+{
+	int	fd[2];
+	int	i;
+	int	filein;
+	int	fileout;
+
+	i = 2;
+	filein = open_file(av[1], 0);
+	fileout = open_file(av[ac -1], 1);
+	dup2(filein, STDIN_FILENO);
+	while (i < ac -2)
+	{
+		create_pipe(fd);
+		child_process(env, av[i++], fd);
+	}
+	dup2(fileout, STDOUT_FILENO);
+	execute(env, av[ac -2]);
+}
 
 void	execute(char **env, char *arg)
 {
@@ -65,44 +102,6 @@ void	execute(char **env, char *arg)
 				return (clean_up(path_env, args, path), error());
 		}
 	}
-	clean_up(path_env, NULL, path);
+	clean_up(path_env, args, path);
 	error();
-}
-
-void	child_pro(char **env, char **av, int *fd)
-{
-	int	filein;
-
-	if (!env || !av || !av[1] || !av[2])
-		error();
-	filein = open(av[1], O_RDONLY);
-	if (filein == -1)
-		error();
-	if (dup2(filein, STDIN_FILENO) == -1)
-		error();
-	if (dup2(fd[1], STDOUT_FILENO) == -1)
-		error();
-	if (close(fd[0]) == -1 || close(filein) == -1 || close(fd[1]) == -1)
-		error();
-	execute(env, av[2]);
-	exit(1);
-}
-
-void	parent_pro(char **env, char **av, int *fd)
-{
-	int	fileout;
-
-	if (!env || !av || !av[3] || !av[4])
-		error();
-	fileout = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fileout == -1)
-		error();
-	if (dup2(fd[0], STDIN_FILENO) == -1)
-		error();
-	if (dup2(fileout, STDOUT_FILENO) == -1)
-		error();
-	if (close(fd[1]) == -1 || close(fileout) == -1 || close(fd[0]) == -1)
-		error();
-	execute(env, av[3]);
-	exit(1);
 }
