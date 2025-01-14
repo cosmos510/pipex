@@ -6,7 +6,7 @@
 #    By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/10 20:41:57 by cosmos            #+#    #+#              #
-#    Updated: 2025/01/13 23:31:08 by cosmos           ###   ########.fr        #
+#    Updated: 2025/01/14 11:18:25 by cosmos           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,18 +43,21 @@ all:            $(NAME)
 $(NAME):        $(LIBFT) $(OBJS)
 				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
-bonus:          $(LIBFT) $(BONUS_OBJS)
+bonus:          $(NAME).bonus
+
+$(NAME).bonus:  $(LIBFT) $(BONUS_OBJS)
 				@$(CC) $(CFLAGS) $(BONUS_OBJS) $(LIBFT) -o $(NAME)
+				@touch $(NAME).bonus
 
 $(LIBFT):
 				make -C $(LIBFT_PATH)
 
 clean:
 				make -C $(LIBFT_PATH) clean
-				$(RM) $(OBJS) $(BONUS_OBJS)
+				$(RM) $(OBJS) $(BONUS_OBJS) $(NAME).bonus
 
 fclean:         clean
 				make -C $(LIBFT_PATH) fclean
-				$(RM) $(NAME) $(NAME)
+				$(RM) $(NAME)
 
 re:             fclean all
