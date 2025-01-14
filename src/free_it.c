@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 09:45:24 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/13 22:52:47 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/14 18:03:52 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_it(char **s)
 	i = 0;
 	if (s)
 	{
-		while (s[i])
+		while (s[i] && s)
 		{
 			free(s[i]);
 			i++;
@@ -39,7 +39,11 @@ void	clean_up(char **path_env, char **args, char *path)
 	if (path_env)
 		free_it(path_env);
 	if (args)
+	{
+		free(args[1]);
 		free(args);
+	}
+		
 	if (path)
 		free(path);
 }
