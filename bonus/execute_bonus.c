@@ -30,7 +30,10 @@ int	open_file(char *file, int mode)
 	else if (mode == 2)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		error();
+	{
+		perror("Error ");
+		exit(0);
+	}
 	return (fd);
 }
 
@@ -78,38 +81,6 @@ void	handle_pipes_bonus(int ac, char **av, char **env, int mode)
 	dup2(fileout, STDOUT_FILENO);
 	execute(env, av[ac - 2]);
 }
-/*
-void	handle_pipes_bonus(int ac, char **av, char **env, int mode)
-{
-	int	fd[2];
-	int	i;
-	int	filein;
-	int	fileout;
-
-	i = 2;
-	if (mode == 1)
-	{
-		here_doc(av[2], fd);
-		i = 3;
-		dup2(fd[0], STDIN_FILENO);
-		fileout = open_file(av[ac -1], 2);
-		close(fd[0]);
-	}
-	else
-	{
-		filein = open_file(av[1], 0);
-		dup2(filein, STDIN_FILENO);
-		fileout = open_file(av[ac -1], 1);
-	}
-	dup2(fileout, STDOUT_FILENO);
-	while (i < ac -2)
-	{
-		create_pipe(fd);
-		child_process(env, av[i++], fd);
-	}
-	dup2(fileout, STDOUT_FILENO);
-	execute(env, av[ac -2]);
-}*/
 
 void	execute(char **env, char *arg)
 {
@@ -127,6 +98,8 @@ void	execute(char **env, char *arg)
 	if (!args)
 		error();
 	path = find_path(path_env, args[0]);
+	if (!path)
+		error2(path_env, args);
 	if (path)
 	{
 		if (args)
@@ -135,6 +108,5 @@ void	execute(char **env, char *arg)
 				return (clean_up(path_env, args, path), error());
 		}
 	}
-	clean_up(path_env, args, path);
 	error();
 }

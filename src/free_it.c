@@ -30,7 +30,15 @@ void	free_it(char **s)
 
 void	error(void)
 {
-	perror("Error\n");
+	perror("Error ");
+	exit(EXIT_FAILURE);
+}
+
+void	error2(char **path_env, char **args)
+{
+	ft_putstr_fd("Commande not found\n", 2);
+	free_it(path_env);
+	free(args);
 	exit(EXIT_FAILURE);
 }
 
@@ -43,7 +51,6 @@ void	clean_up(char **path_env, char **args, char *path)
 		free(args[1]);
 		free(args);
 	}
-		
 	if (path)
 		free(path);
 }

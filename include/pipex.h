@@ -25,6 +25,7 @@ char	*get_path_string(char **env);
 //free_it
 void	free_it(char **s);
 void	error(void);
+void	error2(char **path_env, char **args);
 void	clean_up(char **path_env, char **args, char *path);
 void	close_it(int *fd);
 //commande_utlis.c

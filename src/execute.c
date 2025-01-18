@@ -28,7 +28,10 @@ int	open_file(char *file, int mode)
 	else if (mode == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		error();
+	{
+		perror("Error ");
+		exit(0);
+	}
 	return (fd);
 }
 
@@ -72,7 +75,8 @@ void	handle_pipes(int ac, char **av, char **env)
 	while (i < ac -2)
 	{
 		create_pipe(fd);
-		child_process(env, av[i++], fd);
+		child_process(env, av[i], fd);
+		i++;
 	}
 	dup2(fileout, STDOUT_FILENO);
 	execute(env, av[ac -2]);
@@ -94,6 +98,8 @@ void	execute(char **env, char *arg)
 	if (!args)
 		error();
 	path = find_path(path_env, args[0]);
+	if (!path)
+		error2(path_env, args);
 	if (path)
 	{
 		if (args)
@@ -102,6 +108,5 @@ void	execute(char **env, char *arg)
 				return (clean_up(path_env, args, path), error());
 		}
 	}
-	clean_up(path_env, args, path);
 	error();
 }
