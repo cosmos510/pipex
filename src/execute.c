@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 15:48:25 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/13 21:03:28 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/20 16:00:28 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,15 @@ int	open_file(char *file, int mode)
 		fd = open(file, O_RDONLY);
 	else if (mode == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
+	if (fd == -1 && mode != 1)
 	{
 		perror("Error ");
 		exit(0);
+	}
+	if (fd == -1 && mode == 1)
+	{
+		perror("Error ");
+		exit(1);
 	}
 	return (fd);
 }
