@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:29:18 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/22 20:26:50 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/22 21:24:30 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ int	setup_io(int ac, char **av, int mode, int *fileout)
 	}
 	dup2(*fileout, STDOUT_FILENO);
 	if (filein == -1)
-		return(-1);
-	return(0);
+		return (-1);
+	return (0);
 }
