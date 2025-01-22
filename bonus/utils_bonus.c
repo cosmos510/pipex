@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:29:18 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/22 18:26:56 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/22 20:26:50 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	here_doc(char *limiter, int *fd)
 	close(fd[1]);
 }
 
-void	setup_io(int ac, char **av, int mode, int *fileout)
+int	setup_io(int ac, char **av, int mode, int *fileout)
 {
 	int	filein;
 	int	fd[2];
@@ -77,4 +77,7 @@ void	setup_io(int ac, char **av, int mode, int *fileout)
 		*fileout = open_file(av[ac - 1], 1);
 	}
 	dup2(*fileout, STDOUT_FILENO);
+	if (filein == -1)
+		return(-1);
+	return(0);
 }

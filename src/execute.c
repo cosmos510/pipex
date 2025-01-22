@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 15:48:25 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/22 18:58:31 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/22 21:15:41 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	handle_pipes(int ac, char **av, char **env)
 			i++;
 		}
 	}
-	if (ft_strncmp(av[ac -2], "cat", 4) != 0)
+	if (ft_strncmp(av[ac -2], "cat", 3) == 0 && filein == -1)
 		exit(1);
 	dup2(fileout, STDOUT_FILENO);
 	execute(env, av[ac -2]);
