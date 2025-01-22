@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 15:48:25 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/20 16:00:28 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/22 18:58:31 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	open_file(char *file, int mode)
 	if (fd == -1 && mode != 1)
 	{
 		perror("Error ");
-		exit(0);
+		return (-1);
 	}
 	if (fd == -1 && mode == 1)
 	{
@@ -77,12 +77,17 @@ void	handle_pipes(int ac, char **av, char **env)
 	filein = open_file(av[1], 0);
 	fileout = open_file(av[ac -1], 1);
 	dup2(filein, STDIN_FILENO);
-	while (i < ac -2)
+	if (filein != -1)
 	{
-		create_pipe(fd);
-		child_process(env, av[i], fd);
-		i++;
+		while (i < ac -2)
+		{
+			create_pipe(fd);
+			child_process(env, av[i], fd);
+			i++;
+		}
 	}
+	if (ft_strncmp(av[ac -2], "cat", 4) != 0)
+		exit(1);
 	dup2(fileout, STDOUT_FILENO);
 	execute(env, av[ac -2]);
 }

@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 09:45:24 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/14 18:03:52 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/22 18:41:00 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	error2(char **path_env, char **args)
 	ft_putstr_fd("Commande not found\n", 2);
 	free_it(path_env);
 	free(args);
-	exit(EXIT_FAILURE);
+	exit(127);
 }
 
 void	clean_up(char **path_env, char **args, char *path)
