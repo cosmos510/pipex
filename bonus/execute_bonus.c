@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 21:47:01 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/22 21:12:42 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/24 09:37:30 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ int	open_file(char *file, int mode)
 	return (fd);
 }
 
-void	child_process(char **env, char *cmd, int *fd)
+void	child_process(char **env, char *cmd, int *fd, int file)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
 		close_it(fd);
-	if (pid == 0)
+	if (pid == 0 && file != -1)
 	{
 		if (close(fd[0]) == -1)
 			error();
@@ -79,13 +79,11 @@ void	handle_pipes_bonus(int ac, char **av, char **env, int mode)
 	if (mode == 1)
 		i = 3;
 	ret = setup_io(ac, av, mode, &fileout);
-	while (i < ac - 2 && ret != -1)
+	while (i < ac - 2)
 	{
 		create_pipe(fd);
-		child_process(env, av[i++], fd);
+		child_process(env, av[i++], fd, ret);
 	}
-	if (ret == -1 && ft_strncmp(av[ac -2], "cat", 3) == 0)
-		exit(0);
 	dup2(fileout, STDOUT_FILENO);
 	execute(env, av[ac - 2]);
 }
