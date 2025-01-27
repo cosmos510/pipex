@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:29:18 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/22 21:24:30 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/01/27 21:43:28 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	setup_io(int ac, char **av, int mode, int *fileout)
 	int	filein;
 	int	fd[2];
 
+	filein = -1;
 	if (mode == 1)
 	{
 		here_doc(av[2], fd);
