@@ -223,7 +223,7 @@ run_multi_command_test() {
     bash_cmd+=" > $OUTFILE_BASH"
 
     # Pipex command
-    pipex_cmd="./pipex $input_file"
+    pipex_cmd="./../pipex $input_file"
     for cmd in "${commands[@]}"; do
         pipex_cmd+=" \"$cmd\""
     done
