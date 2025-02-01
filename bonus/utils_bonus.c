@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:29:18 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/27 21:43:28 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/02/01 15:57:59 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	setup_io(int ac, char **av, int mode, int *fileout)
 		dup2(fd[0], STDIN_FILENO);
 		*fileout = open_file(av[ac - 1], 2);
 		close(fd[0]);
+		if (fileout[0] == -1)
+			error();
 	}
 	else
 	{
@@ -81,4 +83,32 @@ int	setup_io(int ac, char **av, int mode, int *fileout)
 	if (filein == -1)
 		return (-1);
 	return (0);
+}
+
+void	child_process_here_doc(char **env, char *cmd, int *fd)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		close_it(fd);
+	}
+	if (pid == 0)
+	{
+		if (close(fd[0]) == -1)
+			error();
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			error();
+		execute(env, cmd);
+	}
+	else
+	{
+		if (close(fd[1]) == -1)
+			error();
+		if (dup2(fd[0], STDIN_FILENO) == -1)
+			error();
+		if (waitpid(pid, NULL, 0) == -1)
+			close_it(fd);
+	}
 }

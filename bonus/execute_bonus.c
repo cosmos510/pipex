@@ -6,7 +6,7 @@
 /*   By: cosmos <cosmos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 21:47:01 by cosmos            #+#    #+#             */
-/*   Updated: 2025/01/27 22:05:39 by cosmos           ###   ########.fr       */
+/*   Updated: 2025/02/01 15:57:55 by cosmos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,13 @@ void	handle_pipes_bonus(int ac, char **av, char **env, int mode)
 	if (mode == 1)
 		i = 3;
 	ret = setup_io(ac, av, mode, &fileout);
+	if (mode == 1)
+	{
+		create_pipe(fd);
+		child_process_here_doc(env, av[i], fd);
+		i++;
+		close(fd[1]);
+	}
 	while (i < ac - 2 && mode != 1)
 	{
 		create_pipe(fd);
