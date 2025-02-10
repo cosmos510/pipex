@@ -42,25 +42,19 @@ int	open_file(char *file, int mode)
 	return (fd);
 }
 
-void	child_process_bonus(char **env, char *cmd, int *fd, int file)
+void	child_process(char **env, char *cmd, int *fd, int file)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
-	{
 		close_it(fd);
-		error();
-	}
-	if (pid == 0)
+	if (pid == 0 && file != -1)
 	{
-		if (file != -1)
-		{
-			if (close(fd[0]) == -1)
-				error();
-			if (dup2(fd[1], STDOUT_FILENO) == -1)
-				error();
-		}
+		if (close(fd[0]) == -1)
+			error();
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			error();
 		execute(env, cmd);
 	}
 	else
@@ -69,6 +63,8 @@ void	child_process_bonus(char **env, char *cmd, int *fd, int file)
 			error();
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			error();
+		if (waitpid(pid, NULL, 0) == -1)
+			close_it(fd);
 	}
 }
 
@@ -94,17 +90,10 @@ void	handle_pipes_bonus(int ac, char **av, char **env, int mode)
 	while (i < ac - 2 && mode != 1)
 	{
 		create_pipe(fd);
-		child_process_bonus(env, av[i++], fd, ret);
+		child_process(env, av[i++], fd, ret);
 	}
 	dup2(fileout, STDOUT_FILENO);
 	execute(env, av[ac - 2]);
-	i = 2;
-	while (i < ac - 2)
-	{
-		waitpid(-1, NULL, 0);
-		i++;
-	}
-	waitpid(-1, NULL, 0);
 }
 
 void	execute(char **env, char *arg)

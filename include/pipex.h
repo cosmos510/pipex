@@ -34,7 +34,7 @@ char	**create_command_args(char *cmd);
 char	**create_args(char **temp, char **args, int count);
 //execute.c
 void	execute(char **env, char *arg);
-pid_t child_process(char **env, char *cmd, int *fd, int is_first, int is_last);
+void	child_process(char **env, char *cmd, int *fd, int file);
 void	handle_pipes(int ac, char **av, char **env);
 int		open_file(char *file, int mode);
 int		create_pipe(int *fd);
@@ -45,6 +45,5 @@ int		get_next_line_pip(char **line);
 void	here_doc(char *limiter, int *fd);
 int		setup_io(int ac, char **av, int mode, int *fileout);
 void	child_process_here_doc(char **env, char *cmd, int *fd);
-void    child_process_bonus(char **env, char *cmd, int *fd, int file);
 
 #endif
