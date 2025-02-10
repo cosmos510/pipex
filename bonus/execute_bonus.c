@@ -63,8 +63,8 @@ void	child_process(char **env, char *cmd, int *fd, int file)
 			error();
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			error();
-		if (waitpid(pid, NULL, 0) == -1)
-			close_it(fd);
+		//if (waitpid(pid, NULL, 0) == -1)
+		//	close_it(fd);
 	}
 }
 
