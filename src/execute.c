@@ -40,51 +40,64 @@ int	open_file(char *file, int mode)
 	return (fd);
 }
 
-void	child_process(char **env, char *cmd, int *fd, int file)
+pid_t	child_process(char **env, char *cmd, int *fd, int is_first, int is_last)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
-		close_it(fd);
-	if (pid == 0 && file != -1)
 	{
-		if (close(fd[0]) == -1)
-			error();
-		if (dup2(fd[1], STDOUT_FILENO) == -1)
-			error();
+		close_it(fd);
+		error();
+	}
+	if (pid == 0)
+	{
+		if (!is_first)
+		{
+			if (dup2(fd[0], STDIN_FILENO) == -1)
+				error();
+		}
+		if (!is_last)
+		{
+			if (dup2(fd[1], STDOUT_FILENO) == -1)
+				error();
+		}
+		close(fd[0]);
+		close(fd[1]);
 		execute(env, cmd);
 	}
-	else
-	{
-		if (close(fd[1]) == -1)
-			error();
-		if (dup2(fd[0], STDIN_FILENO) == -1)
-			error();
-		if (waitpid(pid, NULL, 0) == -1)
-			close_it(fd);
-	}
+	return (pid);
 }
 
 void	handle_pipes(int ac, char **av, char **env)
 {
-	int	fd[2];
-	int	i;
-	int	filein;
-	int	fileout;
+	int		fd[2];
+	int		i;
+	int		filein;
+	int		fileout;
+	pid_t	pid;
 
-	i = 2;
 	filein = open_file(av[1], 0);
-	fileout = open_file(av[ac -1], 1);
-	dup2(filein, STDIN_FILENO);
-	while (i < ac -2)
+	fileout = open_file(av[ac - 1], 1);
+	if (dup2(filein, STDIN_FILENO) == -1)
+		error();
+	i = 2;
+	while (i < ac - 2)
 	{
-		create_pipe(fd);
-		child_process(env, av[i], fd, filein);
+		if (pipe(fd) == -1)
+			error();
+		pid = child_process(env, av[i], fd, i == 2, 0);
 		i++;
 	}
-	dup2(fileout, STDOUT_FILENO);
-	execute(env, av[ac -2]);
+	if (dup2(fileout, STDOUT_FILENO) == -1)
+		error();
+	execute(env, av[ac - 2]);
+	i = 2;
+	while (i < ac - 2)
+	{
+		waitpid(pid, NULL, 0);
+		i++;
+	}
 }
 
 void	execute(char **env, char *arg)
